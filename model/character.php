@@ -26,6 +26,9 @@ require_once('../database/ConnectionManager.php');
         public function NewCharacter($clientID, $characterJSON){
             $this->clientID = $clientID;
             $this->characterJSON = $characterJSON;
+            // Testing values being passed
+            // echo $this->clientID;
+            // var_dump($this->characterJSON);
         }
 
 

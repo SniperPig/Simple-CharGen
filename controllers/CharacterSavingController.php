@@ -4,10 +4,39 @@
 
     class CharacterSavingController{
         
-        function SaveCharacter($json_character){
+        function SaveCharacter($decoded){
             // TODO Check if License Key is valid.
-            // $client = new Client();
-            // $client = $client->getClientByLicenseKey($decoded["LicenseKey"]);
+
+            
+
+            $client = new Client();
+            $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
+            // TODO Check if the client exists. (Send DENIED ACCESS if does not)
+            if(!$client){
+                echo"Not valid $client \n";
+                $confirmation = array(
+                    "code" => 400,
+                    "message" => "The license key is NOT VALID",
+                    "time" => "TODO",
+                );
+                var_dump($confirmation);
+                return $confirmation;
+            }else{
+                echo"Valid ID ".$client["clientID"] ."\n";
+            }
+
+            if(array_key_exists("Character", $decoded)){
+                $json_character = $decoded["Character"];
+            }else{
+                // ! Missing Character key
+                $confirmation = array(
+                        "code" => 400,
+                        "message" => "The key 'Character' is missing from the JSON",
+                        "time" => "TODO",
+                    );
+                var_dump($confirmation);
+                return $confirmation;
+            }
 
             $character = new Character();
 
@@ -20,48 +49,127 @@
                 }
                 else{
                     // echo "No Array Key ".$key."\n";
+                    // ! Missing key in the character
+                    $confirmation = array(
+                        "code" => 400,
+                        "message" => "The key $key is missing in the character JSON",
+                        "time" => "TODO",
+                    );
+                    var_dump($confirmation);
+                    return $confirmation;
                 }
             }
-            // TODO Check if the client exists. (Send DENIED ACCESS if does not)
+            
 
             // TODO Insert the JSON in the DB.
+            var_dump(json_encode($json_character));
+            $character = $character->NewCharacter($client["clientID"], json_encode($json_character));
+            $character->insert();
 
             // TODO Send back the confirmation of update with Character ID.
             $confirmation = array(
-            "code" => 201,
-            "message" => "Ara Ara",
-            "time" => "TODO",
-            "characterID" => 777,
+                "code" => 201,
+                "message" => "Ara Ara",
+                "time" => "TODO",
+                "characterID" => 777,
             );
+            var_dump($confirmation);
             return $confirmation;
         }
 
         function UpdateCharacter($id, $json_character){
-            // TODO Check if License Key is valid and get ClientID.
+            // TODO Check if License Key is valid.
+            $client = new Client();
+            $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
+            // TODO Check if the client exists. (Send DENIED ACCESS if does not)
+            if(!$client){
+                echo"Not valid $client \n";
+                $confirmation = array(
+                    "code" => 400,
+                    "message" => "The license key is NOT VALID",
+                    "time" => "TODO",
+                );
+                var_dump($confirmation);
+                return $confirmation;
+            }else{
+                echo"Valid ID ".$client["clientID"] ."\n";
+            }
+
+            if(array_key_exists("CharacterID", $decoded)){
+                // TODO check if character is owned by ClientID
+                $character_check = $character->getClientCharacterByID($client["clientID"], $decoded["CharacterID"]);
+                if(!$character_check){
+                    echo"Not valid $character_check \n";
+                    $confirmation = array(
+                    "code" => 400,
+                    "message" => "The Character does not match the User",
+                    "time" => "TODO",
+                );
+                var_dump($confirmation);
+                return $confirmation;
+                }else{
+                    echo"Valid Character and ID $character_check \n";
+                }
+            }else{
+                // ! Missing Character ID to be updated
+                $confirmation = array(
+                        "code" => 400,
+                        "message" => "The key 'CharacterID' is missing from the JSON, do not know which character to UPDATE",
+                        "time" => "TODO",
+                    );
+                var_dump($confirmation);
+                return $confirmation;
+            }
+
+            if(array_key_exists("Character", $decoded)){
+                $json_character = $decoded["Character"];
+            }else{
+                // ! Missing Character key
+                $confirmation = array(
+                        "code" => 400,
+                        "message" => "The key 'Character' is missing from the JSON",
+                        "time" => "TODO",
+                    );
+                var_dump($confirmation);
+                return $confirmation;
+            }
 
             $character = new Character();
 
             // Preparation to check JSON validity
             foreach ($character as $key => $value) {
                 if(array_key_exists($key, $json_character)){
-                    echo "Array Key $key Exists \n";
-                    $json_value = $json_character[$key];
-                    echo "Value: $json_value \n";
+                    // echo "Array Key $key Exists \n";
+                    // $json_value = $json_character[$key];
+                    // echo "Value: $json_value \n";
                 }
                 else{
-                    echo "No Array Key ".$key."\n";
+                    // echo "No Array Key ".$key."\n";
+                    // ! Missing key in the character
+                    $confirmation = array(
+                        "code" => 400,
+                        "message" => "The key $key is missing in the character JSON",
+                        "time" => "TODO",
+                    );
+                    var_dump($confirmation);
+                    return $confirmation;
                 }
             }
-            // TODO Check if the client owns the character. (Send DENIED ACCESS if does not)
+            
 
-            // TODO Update the JSON in the DB.
+            // TODO Insert the JSON in the DB.
+            var_dump(json_encode($json_character));
+            $character = $character->NewCharacter($client["clientID"], json_encode($json_character));
+            $character->updateCharacterByID();
 
             // TODO Send back the confirmation of update with Character ID.
-            $confirmation = array();
-            $confirmation->code = "201";
-            $confirmation->message = "Ara Ara";
-            $confirmation->time = '';
-            $confirmation->characterID = $id;
+            $confirmation = array(
+                "code" => 201,
+                "message" => "Ara Ara",
+                "time" => "TODO",
+                "characterID" => 777,
+            );
+            var_dump($confirmation);
             return $confirmation;
         }
 

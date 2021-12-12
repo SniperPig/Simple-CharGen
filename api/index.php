@@ -94,7 +94,7 @@ require_once('../api/JWT.php');
                     
                     $response->payload = json_encode($controller->SaveCharacter($decoded));
                     header('Content-Type: application/json; charset=utf-8');
-                    echo $request->payload;
+                    // var_dump($request->payload);
                 }
                 
                 

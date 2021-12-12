@@ -26,15 +26,16 @@ require_once('../database/ConnectionManager.php');
             $this->licenseKey = $licenseKey;
         }
 
-        function getAllClients(){
-            $query = "SELECT * FROM client";
-            $stmt = $this->dbConnection->prepare($query);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        // ? Should not be as accessible
+        // function getAllClients(){
+        //     $query = "SELECT * FROM client";
+        //     $stmt = $this->dbConnection->prepare($query);
+        //     $stmt->execute();
+        //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // }
 
-        function getClientByLicenseKey($licenseKey){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM client WHERE licenseKey = :licenseKey");
+        function getClientIDByLicenseKey($licenseKey){
+            $stmt = $this->dbConnection->prepare("SELECT clientID FROM client WHERE licenseKey = :licenseKey");
             $stmt->execute(["licenseKey"=>$licenseKey]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
