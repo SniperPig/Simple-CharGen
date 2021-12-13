@@ -12,18 +12,18 @@
             $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
             // TODO Check if the client exists. (Send DENIED ACCESS if does not)
             if(!$client){
-                echo"Not valid $client \n";
+                // * echo"Not valid $client \n";
                 $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
                 $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
                 $confirmation = array(
                     "code" => "400",
                     "message" => "The license key is NOT VALID",
-                    "time" => "$today",
+                    "time" => "$today"
                 );
                 var_dump($confirmation);
                 return $confirmation;
             }else{
-                echo"Valid ID ".$client["clientID"] ."\n";
+                // * echo"Valid ID ".$client["clientID"] ."\n";
             }
 
             if(array_key_exists("Character", $decoded)){
@@ -36,7 +36,7 @@
                 $confirmation = array(
                         "code" => "400",
                         "message" => "The key 'Character' is missing from the JSON",
-                        "time" => "$today",
+                        "time" => "$today"
                     );
                 var_dump($confirmation);
                 return $confirmation;
@@ -57,7 +57,7 @@
                     $confirmation = array(
                         "code" => "400",
                         "message" => "The key $key is missing in the character JSON",
-                        "time" => "$today",
+                        "time" => "$today"
                     );
                     var_dump($confirmation);
                     return $confirmation;
@@ -66,7 +66,7 @@
             
             // TODO Insert the JSON in the DB.
             var_dump(json_encode($json_character));
-            $character = $character->NewCharacter($client["clientID"], json_encode($json_character));
+            $character->NewCharacter($client["clientID"], json_encode($json_character));
             $character->insert();
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
@@ -75,43 +75,45 @@
                 "code" => "201",
                 "message" => "Ara Ara",
                 "time" => "$today",
-                "characterID" => "777",
+                "characterID" => "777"
             );
             var_dump($confirmation);
             return $confirmation;
         }
 
-        function UpdateCharacter($id, $json_character){
+        function UpdateCharacter($id, $decoded){
             // TODO Check if License Key is valid.
             $client = new Client();
             $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
             // TODO Check if the client exists. (Send DENIED ACCESS if does not)
             if(!$client){
-                echo"Not valid $client \n";
+                // * echo"Not valid $client \n";
                 $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
                 $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
                 $confirmation = array(
                     "code" => "400",
                     "message" => "The license key is NOT VALID",
-                    "time" => "$today",
+                    "time" => "$today"
                 );
                 var_dump($confirmation);
                 return $confirmation;
             }else{
-                echo"Valid ID ".$client["clientID"] ."\n";
+                // * echo"Valid ID ".$client["clientID"] ."\n";
             }
+
+            $character = new Character();
 
             if(array_key_exists("CharacterID", $decoded)){
                 // TODO check if character is owned by ClientID
                 $character_check = $character->getClientCharacterByID($client["clientID"], $decoded["CharacterID"]);
                 if(!$character_check){
-                    echo"Not valid $character_check \n";
+                    // * echo"Not valid $character_check \n";
                     $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
-                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                    $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
                     $confirmation = array(
                     "code" => "400",
                     "message" => "The Character does not match the User",
-                    "time" => "$today",
+                    "time" => "$today"
                 );
                 var_dump($confirmation);
                 return $confirmation;
@@ -123,7 +125,7 @@
                 $confirmation = array(
                         "code" => "400",
                         "message" => "The key 'CharacterID' is missing from the JSON, do not know which character to UPDATE",
-                        "time" => "TODO",
+                        "time" => "TODO"
                     );
                 var_dump($confirmation);
                 return $confirmation;
@@ -137,13 +139,11 @@
                 $confirmation = array(
                         "code" => "400",
                         "message" => "The key 'Character' is missing from the JSON",
-                        "time" => "TODO",
+                        "time" => "TODO"
                     );
                 var_dump($confirmation);
                 return $confirmation;
             }
-
-            $character = new Character();
 
             // Preparation to check JSON validity
             foreach ($character as $key => $value) {
@@ -158,7 +158,7 @@
                     $confirmation = array(
                         "code" => "400",
                         "message" => "The key $key is missing in the character JSON",
-                        "time" => "TODO",
+                        "time" => "TODO"
                     );
                     var_dump($confirmation);
                     return $confirmation;
@@ -166,33 +166,95 @@
             }
             
 
-            // TODO Insert the JSON in the DB.
+            // TODO Update the JSON in the DB.
             var_dump(json_encode($json_character));
             $character = $character->NewCharacter($client->clientID, json_encode($json_character));
-            $character->updateCharacterByID();
+            $character->updateCharacterByID($decoded["CharacterID"], $client["clientID"]);
 
             // TODO Send back the confirmation of update with Character ID.
             $confirmation = array(
                 "code" => "201",
                 "message" => "Ara Ara",
                 "time" => "TODO",
-                "characterID" => "777",
+                "characterID" => $decoded["CharacterID"]
             );
             var_dump($confirmation);
             return $confirmation;
         }
 
         function GetCharacter($id, $licenseKey){
-            // TODO Check if License Key is valid and get ClientID.
+            // TODO Check if License Key is valid.
+            $client = new Client();
+            $client = $client->getClientIDByLicenseKey($licenseKey);
+            // TODO Check if the client exists. (Send DENIED ACCESS if does not)
+            if(!$client){
+                $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                    "code" => "400",
+                    "message" => "The license key is NOT VALID",
+                    "time" => "$today"
+                );
+                return $confirmation;
+            }else{
+                // * echo"Valid ID ".$client["clientID"] ."\n";
+            }
             $character = new Character();
-            $character = $character->getClientCharacterByID($clientID, $id);
+            $character = $character->getClientCharacterByID($client["clientID"], $id, $json_character);
+            $confirmation = array(
+                "code" => "201",
+                "message" => "Character successfully retrieved",
+                "time" => "TODO",
+                "character" => $character
+            );
+            return $confirmation;
         }
 
         function DeleteCharacter($id, $licenseKey){
-            // TODO Check if License Key is valid and get ClientID.
-            // TODO Check if client owns the character (Send DENIED ACCESS if does not)
+            // TODO Check if License Key is valid.
+            $client = new Client();
+            $client = $client->getClientIDByLicenseKey($licenseKey);
+            // TODO Check if the client exists. (Send DENIED ACCESS if does not)
+            if(!$client){
+                //  * echo"Not valid $client \n";
+                $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                    "code" => "400",
+                    "message" => "The license key is NOT VALID",
+                    "time" => "$today"
+                );
+                return $confirmation;
+            }else{
+                // * echo"Valid ID ".$client["clientID"] ."\n";
+            }
             $character = new Character();
-            $character = $character->deleteCharacterByID($clientID, $id);
+
+            // TODO check if character is owned by ClientID
+            $character_check = $character->getClientCharacterByID($client["clientID"], $id);
+            if(!$character_check){
+                $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                "code" => "400",
+                "message" => "The Character does not match the User",
+                "time" => "$today"
+                );
+                return $confirmation;
+            }
+            $character = new Character();
+            $character->deleteCharacterByID($client["clientID"], $id);
+
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+
+            // * echo"Valid Character and ID $character_check \n";
+                $confirmation = array(
+                    "code" => "201",
+                    "message" => "The Character is deleted",
+                    "time" => "$today"
+                    );
+                return $confirmation;
         }
     }
     

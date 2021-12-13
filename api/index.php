@@ -108,13 +108,14 @@ require_once('../api/JWT.php');
         
     //}
     else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'GET') == 0){
-    
-        
 
-        // echo "Request Method: ".$request->verb."<br><br>";
-        // echo "Url Parameters: ".$request->url_parameters."<br>";
+        // * echo "Request Method: ".$request->verb."<br><br>";
+        if(array_key_exists("token", $_GET))
+            $licenseKey = $_GET["token"];
+        if(array_key_exists("id", $_GET))
+            $id = $_GET["id"];
         // var_dump($request->url_parameters);
-        // echo "<br><br>";
+        // * echo "<br><br>";
 
         
         // Note-3
@@ -126,6 +127,7 @@ require_once('../api/JWT.php');
             // Get the target resource controller name.
         $keys = array();
         $keys = array_keys($request->url_parameters);
+        // var_dump($keys);
 
         // $keys[0] in this case is -> 'client'
         // Capitalize the first letter.
@@ -145,7 +147,53 @@ require_once('../api/JWT.php');
             // echo "<br>";
 
             if($request->accept == "application/json"){
-                $response->payload = json_encode($controller->GetCharacter());
+                $response->payload = json_encode($controller->GetCharacter($id, $licenseKey));
+            }
+            header('Content-Type: application/json; charset=utf-8');
+            echo $response->payload;
+        }
+    }
+
+    else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'DELETE') == 0){
+        // * echo "Request Method: ".$request->verb."<br><br>";
+        if(array_key_exists("token", $_GET))
+            $licenseKey = $_GET["token"];
+        if(array_key_exists("id", $_GET))
+            $id = $_GET["id"];
+        // var_dump($request->url_parameters);
+        // * echo "<br><br>";
+
+        
+        // Note-3
+            // Given an URL with a parameter "client=123"
+            // We need to determine that this request is asking for a client with ID 123
+            // We need to implement a general way that allows us to load the appropriate controller depending on the URL parameter.
+            // Check Note-4
+
+            // Get the target resource controller name.
+        $keys = array();
+        $keys = array_keys($request->url_parameters);
+        // var_dump($keys);
+
+        // $keys[0] in this case is -> 'client'
+        // Capitalize the first letter.
+        if(empty($keys))
+            $controllerName = ucfirst('CharacterSaving').'Controller';
+        else
+        $controllerName = ucfirst($keys[0]).'Controller';
+
+        // Check whether the class $controllerName exists or not
+        // class_exists takes a second parameter $autoload of type boolean and is true by default.
+        // So the $controllerName is matched by $classname in autoload($classname)
+        if(class_exists($controllerName)){
+            $controller = new $controllerName();
+            
+            // Testing
+            // var_dump($controller->getAllClients());
+            // echo "<br>";
+
+            if($request->accept == "application/json"){
+                $response->payload = json_encode($controller->DeleteCharacter($id, $licenseKey));
             }
             header('Content-Type: application/json; charset=utf-8');
             echo $response->payload;

@@ -16,9 +16,9 @@ require_once('../database/ConnectionManager.php');
         public $dateOfBirth;
 
         private  $connectionManager;
-        private \PDO $dbConnection;
+        private  $dbConnection;
 
-        function __constructor(){
+        function __construct(){
             $this->connectionManager = new ConnectionManager();
             $this->dbConnection = $this->connectionManager->getConnection();
         }
@@ -26,19 +26,16 @@ require_once('../database/ConnectionManager.php');
         public function NewCharacter($clientID, $characterJSON){
             $this->clientID = $clientID;
             $this->characterJSON = $characterJSON;
-
-            $this->connectionManager = new ConnectionManager();
-            $this->dbConnection = $this->connectionManager->getConnection();
             // Testing values being passed
             // echo $this->clientID;
-            // var_dump($this->characterJSON);
+            // var_dump($this->characterJSON);+
         }
 
 
         /**
          * insert character into database
          */
-        public function insert() {
+        function insert() {
             $stmt = $this->dbConnection->prepare("INSERT INTO characters(clientID, characterJSON)
             VALUES (:clientID, :characterJSON)");
             $stmt->execute(["clientID"=>$this->clientID, "characterJSON"=>$this->characterJSON]);
@@ -60,8 +57,7 @@ require_once('../database/ConnectionManager.php');
         function getAllCharactersByClient($clientID){
             $stmt = $this->dbConnection->prepare("SELECT * FROM characters WHERE clientID = :clientID");
             $stmt->execute(["clientID"=>$clientID]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-
+            
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
@@ -71,25 +67,27 @@ require_once('../database/ConnectionManager.php');
             $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
             VALUES (:clientID, :requestTime, :requestType)");
             $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**
          * Get one character created by a client from the database
          */
         function getClientCharacterByID($clientID, $characterID){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM characters WHERE clientID = :clientID AND characterID = :characterID");
+            $stmt = $this->dbConnection->prepare("SELECT characterJSON FROM characters WHERE clientID = :clientID AND characterID = :characterID");
             $stmt->execute(["clientID"=>$clientID, "characterID"=>$characterID]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-
+            
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
-
             $requestType = "GET";
 
             $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
             VALUES (:clientID, :requestTime, :requestType)");
-            $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+            $stmtElse->execute(["clientID"=>$clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**
@@ -98,17 +96,38 @@ require_once('../database/ConnectionManager.php');
         function deleteCharacterByID($clientID, $characterID){
             $stmt = $this->dbConnection->prepare("DELETE FROM characters WHERE clientID = :clientID AND characterID = :characterID");
             $stmt->execute(["clientID"=>$clientID, "characterID"=>$characterID]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-
+            
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
 
-            $requestType = "GET";
+            $requestType = "DELETE";
 
             $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
             VALUES (:clientID, :requestTime, :requestType)");
-            $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+            $stmtElse->execute(["clientID"=>$clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        /**
+         * Delete one character created by a client in the  database
+         */
+        function updateCharacterByID($characterID, $clientID, $characterJSON){
+            $stmt = $this->dbConnection->prepare("UPDATE TABLE characters set characterJSON = :characterJSON WHERE clientID = :clientID AND characterID = :characterID");
+            $stmt->execute(["clientID"=>$this->$clientID, "characterID"=>$characterID, "characterJSON"=>$characterJSON]);
+            
+            // Get the day and time (in the MySQL DATETIME format)
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
+
+            $requestType = "UPDATE";
+
+            $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
+            VALUES (:clientID, :requestTime, :requestType)");
+            $stmtElse->execute(["clientID"=>$clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
 
@@ -172,12 +191,5 @@ require_once('../database/ConnectionManager.php');
 
             return $this;
         }
-        
-        // function getCurrentTime(){
-        //     // Get the day and time (in the MySQL DATETIME format)
-        //     $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
-        //     $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
-        //     return $today;
-        // }
     }
 ?>

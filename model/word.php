@@ -8,7 +8,7 @@ require_once('../database/ConnectionManager.php');
         public $word;
         public $gender;
         public $type;
-        public $tense;
+        public $form;
 
         private $connectionManager;
         private $dbConnection;
@@ -18,44 +18,44 @@ require_once('../database/ConnectionManager.php');
             $this->dbConnection = $this->connectionManager->getConnection();
         }
 
-        public function NewWord($word, $gender, $type, $tense){
+        public function NewWord($word, $gender, $form, $type ){
             $this->gender = $gender;
+            $this->form = $form;
             $this->type = $type;
-            $this->tense = $tense;
         }
 
         /**
-         * get the client by gender
+         * get the word by gender
          */
         function getWordsByGender($gender){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM words WHERE gender = :gender");
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE gender = :gender");
             $stmt->execute(["gender"=>$gender]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**
-         * get the client by type
+         * get the word by type
          */
         function getWordsByType($type){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM words WHERE type = :type");
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = :type");
             $stmt->execute(["type"=>$type]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**
-         * get the client by tense
+         * get the word by form
          */
         function getWordsByForm($tense){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM words WHERE tense = :tense");
-            $stmt->execute(["tense"=>$tense]);
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE form = :form");
+            $stmt->execute(["form"=>$form]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**
-         * get the client by tense
+         * get all the words
          */
         function getAllWords(){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM words");
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist");
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }

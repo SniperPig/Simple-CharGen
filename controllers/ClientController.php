@@ -8,10 +8,10 @@
             
         }
 
-        function getAllClients(){
-            $clientModel = new Client();
-            return $clientModel->getAllClients(); 
-        }
+        // function getAllClients(){
+        //     $clientModel = new Client();
+        //     return $clientModel->getAllClients(); 
+        // }
     }
 
     // $clientController = new ClientController();
