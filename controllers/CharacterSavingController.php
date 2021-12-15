@@ -168,7 +168,7 @@
 
             // TODO Update the JSON in the DB.
             var_dump(json_encode($json_character));
-            $character = $character->NewCharacter($client->clientID, json_encode($json_character));
+            $character->NewCharacter($client->clientID, json_encode($json_character));
             $character->updateCharacterByID($decoded["CharacterID"], $client["clientID"]);
 
             // TODO Send back the confirmation of update with Character ID.
@@ -200,7 +200,7 @@
                 // * echo"Valid ID ".$client["clientID"] ."\n";
             }
             $character = new Character();
-            $character = $character->getClientCharacterByID($client["clientID"], $id, $json_character);
+            $character = $character->getClientCharacterByID($client["clientID"], $id);
             $confirmation = array(
                 "code" => "201",
                 "message" => "Character successfully retrieved",
