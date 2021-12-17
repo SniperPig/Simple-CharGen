@@ -110,10 +110,29 @@ require_once('../api/JWT.php');
     else if (strcasecmp($_SERVER['REQUEST_METHOD'], 'GET') == 0){
 
         // * echo "Request Method: ".$request->verb."<br><br>";
-        if(array_key_exists("token", $_GET))
+        if(array_key_exists("token", $_GET)){
             $licenseKey = $_GET["token"];
-        if(array_key_exists("id", $_GET))
+        }else{
+            $confirmation = array(
+                "code" => "400",
+                "message" => "Missing Token Key",
+                "time" => "TODO"
+            );
+            var_dump($confirmation);
+            return $confirmation;
+            }
+        if(array_key_exists("id", $_GET)){
             $id = $_GET["id"];
+        }else{
+            $confirmation = array(
+                "code" => "400",
+                "message" => "Missing Character ID Key",
+                "time" => "TODO"
+            );
+            var_dump($confirmation);
+            return $confirmation;
+        }
+
         // var_dump($request->url_parameters);
         // * echo "<br><br>";
 

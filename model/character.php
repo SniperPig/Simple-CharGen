@@ -32,7 +32,140 @@ require_once('../database/ConnectionManager.php');
             // var_dump($this->characterJSON);+
         }
 
+        //! ------------------------------- Character attributes functions -------------------------------- //
+        function getRandomFood() {
+            // generate a random food
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Food
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
 
+        function getRandomFun() {
+            // generate a random fun
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Fun
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomFurniture() {
+            // generate a random furniture
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Furniture
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomDrink() {
+            // generate a random drink
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Drink
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomToy() {
+            // generate a random toy
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Toy
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomAnimal() {
+            // generate a random animal
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Animal
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomVehicle() {
+            // generate a random vehicle
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Vehicle
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomWeapon() {
+            // generate a random weapon
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Weapon
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomTool() {
+            // generate a random tool
+            $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE type = Tool
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+        //! --------------------------------------------------------------------------------------- //
+
+
+
+
+
+        //! ------------------------------- Character characteristic functions -------------------------------- //
+        
+        function getRandomFname() {
+            // generate a random First Name
+            $stmt = $this->dbConnection->prepare("SELECT * FROM firstName WHERE type = fName
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        function getRandomLname() {
+            // generate a random Last Name
+            $stmt = $this->dbConnection->prepare("SELECT * FROM lastName WHERE type = fName
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomSpecies() {
+            // generate a random species
+            $stmt = $this->dbConnection->prepare("SELECT * FROM species WHERE type = fName
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomEyeColor() {
+            // generate a random eye color 
+            $stmt = $this->dbConnection->prepare("SELECT * FROM eyeColor WHERE type = eyeColor
+            ORDER BY RAND()
+            LIMIT 1;");
+            return $stmt->fetch(PDO::FETCH_ASSOC); 
+        }
+
+        function getRandomHeight() {
+            // generate a random height
+            return rand(54, 272); 
+        }
+
+        function getRandomAge() {
+            // generate a random age
+            return rand(18, 120); 
+        }
+
+        function getRandomDateOfBirth() {
+            //  generate a data of birth
+            $date_start = strtotime('1700-01-01');  //you can change it to your timestamp;
+            $date_end = strtotime('2200-12-31');  //you can change it to your timestamp;
+            $day_step = 86400; 
+            $date_between = abs(($date_end - $date_start) / $day_step);
+            $random_day = rand(0, $date_between);
+            return date("Y-m-d", $date_start + ($random_day * $day_step));
+        }
+
+
+        //!-------------------------------- CRUD DATABASE FUNCTIONS ---------------------------------//
         /**
          * insert character into database
          */

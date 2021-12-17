@@ -1,19 +1,18 @@
 <?php
     require_once('../model/client.php');
     require_once('../model/character.php');
-    require_once('../model/character.php');
-    require_once('../model/character.php');
+    require_once('../model/sentence.php');
+    require_once('../model/word.php');
 
-    class CharacterGeneratoController{
+    class CharacterGeneratorController{
 
         function GetCharacter($decoded){
             //  Check if License Key is valid.
-            //?? this is done below i think?
 
             $client = new Client();
             $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
-            //  Check if the client exists. (Send DENIED ACCESS if does not)
-            if(!$client){
+            //  Check if the client exists. (Send DENIED ACCESS if does not);
+            if(!$client) {
                 // * echo"Not valid $client \n";
                 $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
                 $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
@@ -54,7 +53,6 @@
             // * Do here
             // * generateRandomCharacterWithParameters($user_set_parameters)
 
-            
             // TODO Send back the confirmation of update with Character JSON.
             $confirmation = array(
                 "code" => "201",
@@ -64,6 +62,20 @@
             );
             var_dump($confirmation);
             return $confirmation;
+        }
+
+        function generateRandomCharacter() {
+            $character = new Character();
+            $generated_character = array(
+                "fName" => $character->getRandomFname,
+                "lName" => $character->getRandomLname,
+                "species" => $character->getRandomSpecies,
+                "eyeColor" => $character->getRandomEyeColor,
+                "height" => $character->getRandomHeight,
+                "age" => $character->getRandomAge,
+                "dateOfBirth" => $character->getRandomDateOfBirth
+            );
+            
         }
 
     }
