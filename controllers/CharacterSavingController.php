@@ -4,7 +4,7 @@
 
     class CharacterSavingController{
         
-        function SaveCharacter($decoded){
+        function index($decoded){
             //  Check if License Key is valid.
             //?? this is done below i think?
 

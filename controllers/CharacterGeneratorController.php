@@ -6,7 +6,7 @@
 
     class CharacterGeneratorController{
 
-        function GetCharacter($decoded){
+        function index($decoded){
             //  Check if License Key is valid.
 
             $client = new Client();
@@ -26,39 +26,13 @@
             }else{
                 // * echo"Valid ID ".$client["clientID"] ."\n";
             }
+            $generated_character = this->generateRandomCharacter();
 
-            if(array_key_exists("Character", $decoded)){
-                $json_character = $decoded["Character"];
-                // echo json_character result in the word "array" being displayed
-            }else{
-                //  Just generate a random character if no JSON is passed
-                // * generateRandomCharacter();
-            }
-
-            $character = new Character();
-            // Preparation to check JSON validity
-            foreach ($character as $key => $value) {
-                // TODO save the keys and their set value, put them in an array.
-                $user_set_parameters = array();
-                if(array_key_exists($key, $json_character)){
-                // TODO add key with value in array.
-                    //echo "Array Key $key Exists \n";
-                    //$json_value = $json_character[$key];
-                    //echo "Value: $json_value \n";
-                } else {
-                    // * Do nothing.
-                }
-            }
-            // TODO Generate a character by taking account of the parameters in the $user_set_parameters array.
-            // * Do here
-            // * generateRandomCharacterWithParameters($user_set_parameters)
-
-            // TODO Send back the confirmation of update with Character JSON.
             $confirmation = array(
                 "code" => "201",
                 "message" => "Character successfully generated",
                 "time" => "TODO",
-                "character" => $character
+                "character" => $generated_character
             );
             var_dump($confirmation);
             return $confirmation;
@@ -66,6 +40,7 @@
 
         function generateRandomCharacter() {
             $character = new Character();
+            $info = generateRandomInfo();
             $generated_character = array(
                 "fName" => $character->getRandomFname,
                 "lName" => $character->getRandomLname,
@@ -73,11 +48,29 @@
                 "eyeColor" => $character->getRandomEyeColor,
                 "height" => $character->getRandomHeight,
                 "age" => $character->getRandomAge,
-                "dateOfBirth" => $character->getRandomDateOfBirth
+                "dateOfBirth" => $character->getRandomDateOfBirth,
+
+                "info" => $info
             );
-            
+            return $info;
         }
 
+        function generateRandomInfo(){
+            $character = new Character();
+            $sentence = $character->getRandomSentence();
+            $needle = "%BLANK%";
+            $lastPos = 0;
+            $positions = array();
+
+            while (($lastPos = strpos($html, $needle, $lastPos))!== false) {
+                $positions[] = $lastPos;
+                $lastPos = $lastPos + strlen($needle);
+            }
+
+            // Displays 3 and 10
+            foreach ($positions as $value) {
+                echo $value ."<br />";
+            }
+        }
     }
-    
 ?>

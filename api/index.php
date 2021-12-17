@@ -92,7 +92,7 @@ require_once('../api/JWT.php');
 
                 if($request->accept == "application/json"){
                     
-                    $response->payload = json_encode($controller->SaveCharacter($decoded));
+                    $response->payload = json_encode($controller->index($decoded));
                     header('Content-Type: application/json; charset=utf-8');
                     // var_dump($request->payload);
                 }
