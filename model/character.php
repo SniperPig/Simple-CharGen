@@ -26,6 +26,7 @@ require_once('../database/ConnectionManager.php');
         public function NewCharacter($clientID, $characterJSON){
             $this->clientID = $clientID;
             $this->characterJSON = $characterJSON;
+
             // Testing values being passed
             // echo $this->clientID;
             // var_dump($this->characterJSON);+
@@ -113,9 +114,9 @@ require_once('../database/ConnectionManager.php');
         /**
          * Delete one character created by a client in the  database
          */
-        function updateCharacterByID($characterID, $clientID, $characterJSON){
+        function updateCharacterByID($characterID, $clientID){
             $stmt = $this->dbConnection->prepare("UPDATE TABLE characters set characterJSON = :characterJSON WHERE clientID = :clientID AND characterID = :characterID");
-            $stmt->execute(["clientID"=>$this->$clientID, "characterID"=>$characterID, "characterJSON"=>$characterJSON]);
+            $stmt->execute(["clientID"=>$clientID, "characterID"=>$characterID, "characterJSON"=>$this->characterJSON]);
             
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)

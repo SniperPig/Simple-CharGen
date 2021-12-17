@@ -167,7 +167,7 @@
 
             //  Update the JSON in the DB.
             var_dump(json_encode($json_character));
-            $character = $character->NewCharacter($client->clientID, json_encode($json_character));
+            $character->NewCharacter($client->clientID, json_encode($json_character));
             $character->updateCharacterByID($decoded["CharacterID"], $client["clientID"]);
 
             //  Send back the confirmation of update with Character ID.
