@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2021 at 03:30 AM
+-- Generation Time: Dec 17, 2021 at 08:32 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `characters`
 --
 
+DROP TABLE IF EXISTS `characters`;
 CREATE TABLE `characters` (
   `characterID` int(11) NOT NULL,
   `clientID` int(11) NOT NULL,
@@ -47,6 +48,7 @@ INSERT INTO `characters` (`characterID`, `clientID`, `characterJSON`) VALUES
 -- Table structure for table `client`
 --
 
+DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client` (
   `clientID` int(11) NOT NULL,
   `username` varchar(64) NOT NULL,
@@ -68,6 +70,7 @@ INSERT INTO `client` (`clientID`, `username`, `password`, `email`, `licenseKey`)
 -- Table structure for table `requests`
 --
 
+DROP TABLE IF EXISTS `requests`;
 CREATE TABLE `requests` (
   `requestID` int(11) NOT NULL,
   `clientID` int(11) NOT NULL,
@@ -89,6 +92,7 @@ INSERT INTO `requests` (`requestID`, `clientID`, `requestTime`, `requestType`) V
 -- Table structure for table `sentences`
 --
 
+DROP TABLE IF EXISTS `sentences`;
 CREATE TABLE `sentences` (
   `sentenceID` int(11) NOT NULL,
   `sentence` text NOT NULL
@@ -100,6 +104,7 @@ CREATE TABLE `sentences` (
 -- Table structure for table `wordlist`
 --
 
+DROP TABLE IF EXISTS `wordlist`;
 CREATE TABLE `wordlist` (
   `word` varchar(64) NOT NULL,
   `gender` char(1) DEFAULT NULL,
