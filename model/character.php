@@ -132,7 +132,7 @@ require_once('../database/ConnectionManager.php');
 
         public function getRandomFname() {
             // generate a random First Name
-            $stmt = $this->dbConnection->prepare("SELECT first_name FROM firstName WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT first_name FROM firstName
             ORDER BY RAND()
             LIMIT 1;");
             $stmt->execute();
@@ -141,7 +141,7 @@ require_once('../database/ConnectionManager.php');
 
         function getRandomLname() {
             // generate a random Last Name
-            $stmt = $this->dbConnection->prepare("SELECT last_name FROM lastName WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT last_name FROM lastName
             ORDER BY RAND()
             LIMIT 1;");
             $stmt->execute();
@@ -150,7 +150,7 @@ require_once('../database/ConnectionManager.php');
 
         function getRandomSpecies() {
             // generate a random species
-            $stmt = $this->dbConnection->prepare("SELECT species FROM species WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT species FROM species
             ORDER BY RAND()
             LIMIT 1;");
             $stmt->execute();
@@ -159,7 +159,7 @@ require_once('../database/ConnectionManager.php');
 
         function getRandomEyeColor() {
             // generate a random eye color 
-            $stmt = $this->dbConnection->prepare("SELECT eye_color FROM eyeColor WHERE type = 'eyeColor'
+            $stmt = $this->dbConnection->prepare("SELECT eye_color FROM eyeColor
             ORDER BY RAND()
             LIMIT 1;");
             $stmt->execute();

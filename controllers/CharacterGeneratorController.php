@@ -51,10 +51,10 @@
                 
             }
             $generated_character = array(
-                "fName" => $character->getRandomFname(),
-                "lName" => $character->getRandomLname(),
-                "species" => $character->getRandomSpecies(),
-                "eyeColor" => $character->getRandomEyeColor(),
+                "fName" => $character->getRandomFname()["first_name"],
+                "lName" => $character->getRandomLname()["last_name"],
+                "species" => $character->getRandomSpecies()["species"],
+                "eyeColor" => $character->getRandomEyeColor()["eye_color"],
                 "height" => $character->getRandomHeight(),
                 "age" => $character->getRandomAge(),
                 "dateOfBirth" => $character->getRandomDateOfBirth(),
