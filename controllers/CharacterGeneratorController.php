@@ -26,7 +26,43 @@
             }else{
                 // * echo"Valid ID ".$client["clientID"] ."\n";
             }
-            $generated_character = this->generateRandomCharacter();
+            $character = new Character();
+            $sentence_object = $character->getRandomSentence();
+            $sentence = $sentence_object["sentence"];
+            $needle = "%BLANK%";
+            $lastPos = 0;
+            $positions = array();
+
+            while (($lastPos = strpos($sentence, $needle, $lastPos))!== false) {
+                $positions[] = $lastPos;
+                $lastPos = $lastPos + strlen($needle);
+            }
+
+            $vocals = array('a','e','i','o','u');
+            // Displays 3 and 10
+            foreach ($positions as $value) {
+                $word_object = $character->getRandomWord();
+                $word = $word_object["word"];
+                $sentence = str_replace("%BLANK%",strtolower($word),$sentence);
+                if (ctype_alpha($word) && in_array($word[0], $vocals))
+                    $sentence = str_replace("[a/an]","an",$sentence);
+                else
+                    $sentence = str_replace("[a/an]","a",$sentence);
+                
+            }
+            $generated_character = array(
+                "fName" => $character->getRandomFname(),
+                "lName" => $character->getRandomLname(),
+                "species" => $character->getRandomSpecies(),
+                "eyeColor" => $character->getRandomEyeColor(),
+                "height" => $character->getRandomHeight(),
+                "age" => $character->getRandomAge(),
+                "dateOfBirth" => $character->getRandomDateOfBirth(),
+
+                "info" => $sentence
+            );
+            var_dump($generated_character);
+            return $generated_character;
 
             $confirmation = array(
                 "code" => "201",
@@ -38,7 +74,7 @@
             return $confirmation;
         }
 
-        function generateRandomCharacter() {
+        public function generateRandomCharacter() {
             $character = new Character();
             $info = generateRandomInfo();
             $generated_character = array(

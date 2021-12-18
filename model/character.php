@@ -38,6 +38,7 @@ require_once('../database/ConnectionManager.php');
             $stmt = $this->dbConnection->prepare("SELECT sentence FROM sentences
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); 
         }
 
@@ -46,6 +47,7 @@ require_once('../database/ConnectionManager.php');
             $stmt = $this->dbConnection->prepare("SELECT word FROM wordlist
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); 
         }
 
@@ -128,35 +130,39 @@ require_once('../database/ConnectionManager.php');
 
         //! ------------------------------- Character characteristic functions -------------------------------- //
 
-        function getRandomFname() {
+        public function getRandomFname() {
             // generate a random First Name
-            $stmt = $this->dbConnection->prepare("SELECT * FROM firstName WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT first_name FROM firstName WHERE type = 'fName'
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         function getRandomLname() {
             // generate a random Last Name
-            $stmt = $this->dbConnection->prepare("SELECT * FROM lastName WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT last_name FROM lastName WHERE type = 'fName'
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); 
         }
 
         function getRandomSpecies() {
             // generate a random species
-            $stmt = $this->dbConnection->prepare("SELECT * FROM species WHERE type = 'fName'
+            $stmt = $this->dbConnection->prepare("SELECT species FROM species WHERE type = 'fName'
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); 
         }
 
         function getRandomEyeColor() {
             // generate a random eye color 
-            $stmt = $this->dbConnection->prepare("SELECT * FROM eyeColor WHERE type = 'eyeColor'
+            $stmt = $this->dbConnection->prepare("SELECT eye_color FROM eyeColor WHERE type = 'eyeColor'
             ORDER BY RAND()
             LIMIT 1;");
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); 
         }
 
