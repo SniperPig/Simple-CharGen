@@ -8,9 +8,22 @@
 
         function index($decoded){
             //  Check if License Key is valid.
+            if(array_key_exists("LicenseKey", $decoded)){
 
+            }else{
+                $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                    "code" => "400",
+                    "message" => "The license key is NOT SET",
+                    "time" => "$today"
+                );
+                var_dump($confirmation);
+                return $confirmation;
+            }
             $client = new Client();
             $client = $client->getClientIDByLicenseKey($decoded["LicenseKey"]);
+
             //  Check if the client exists. (Send DENIED ACCESS if does not);
             if(!$client) {
                 // * echo"Not valid $client \n";
@@ -74,6 +87,7 @@
             return $confirmation;
         }
 
+        /*
         public function generateRandomCharacter() {
             $character = new Character();
             $info = generateRandomInfo();
@@ -108,5 +122,6 @@
                 echo $value ."<br />";
             }
         }
+        */
     }
 ?>

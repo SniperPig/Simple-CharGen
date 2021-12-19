@@ -32,7 +32,21 @@ require_once('../api/JWT.php');
         //Attempt to decode the incoming RAW post data from JSON.
         $decoded = array();
         $decoded = json_decode($content, true);
+        
+        $check_json = json_last_error() === JSON_ERROR_NONE;
 
+        if(!$check_json){
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                    "code" => "400",
+                    "message" => "Invalid JSON",
+                    "time" => "$today"
+                );
+                header('Content-Type: application/json; charset=utf-8');
+                var_dump($confirmation);
+                return $confirmation;
+        }
         //! TOKEN BASED AUTHENTICATION, KEEP COMMENTED FOR NOW
 
         //! ==================================================================
@@ -113,22 +127,28 @@ require_once('../api/JWT.php');
         if(array_key_exists("token", $_GET)){
             $licenseKey = $_GET["token"];
         }else{
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
             $confirmation = array(
                 "code" => "400",
                 "message" => "Missing Token Key",
-                "time" => "TODO"
+                "time" => $today
             );
+            header('Content-Type: application/json; charset=utf-8');
             var_dump($confirmation);
             return $confirmation;
             }
         if(array_key_exists("id", $_GET)){
             $id = $_GET["id"];
         }else{
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
             $confirmation = array(
                 "code" => "400",
                 "message" => "Missing Character ID Key",
-                "time" => "TODO"
+                "time" => $today
             );
+            header('Content-Type: application/json; charset=utf-8');
             var_dump($confirmation);
             return $confirmation;
         }
