@@ -34,7 +34,7 @@
         "tags": [
           "Character generator"
         ],
-        "summary": "generates a character",
+        "summary": "Creates a new character",
         "description": "",
         "operationId": "createCharacter",
         "consumes": [
@@ -47,7 +47,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "The LicenseKey of the client trying to generate a character",
+            "description": "Takes the license key of user in body to generates a character with the help of the database",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CharacterGeneration"
@@ -55,6 +55,15 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
           "405": {
             "description": "Invalid input"
           }
@@ -79,7 +88,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Character that needs to be added to the store",
+            "description": "Character that needs to be added to the database",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Character"
@@ -87,6 +96,15 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
           "405": {
             "description": "Invalid input"
           }
@@ -109,7 +127,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Character object that needs to be added to the db",
+            "description": "Character object that needs to be updated in the db",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Character"
@@ -117,6 +135,15 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
           "400": {
             "description": "Invalid ID supplied"
           },
@@ -206,6 +233,15 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
           "400": {
             "description": "Invalid ID supplied"
           },
