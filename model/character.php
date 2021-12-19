@@ -168,12 +168,12 @@ require_once('../database/ConnectionManager.php');
 
         function getRandomHeight() {
             // generate a random height
-            return rand(54, 272); 
+            return strval(rand(54, 272)); 
         }
 
         function getRandomAge() {
             // generate a random age
-            return rand(18, 120); 
+            return strval(rand(18, 120)); 
         }
 
         function getRandomDateOfBirth() {
@@ -200,11 +200,31 @@ require_once('../database/ConnectionManager.php');
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
 
-            $requestType = "Insert";
+            $requestType = "INSERT";
 
             $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
             VALUES (:clientID, :requestTime, :requestType)");
             $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+        }
+
+        /**
+         * Get the last characters created by a client from the database
+         */
+        function getLastCharacterIDByClient($clientID){
+            $stmt = $this->dbConnection->prepare("SELECT characterID FROM characters WHERE clientID = :clientID ORDER BY characterID DESC LIMIT 1");
+            $stmt->execute(["clientID"=>$clientID]);
+            
+            // Get the day and time (in the MySQL DATETIME format)
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
+
+            $requestType = "GET";
+
+            $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
+            VALUES (:clientID, :requestTime, :requestType)");
+            $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         /**

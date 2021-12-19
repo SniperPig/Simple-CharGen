@@ -74,7 +74,7 @@
                 "code" => "201",
                 "message" => "Ara Ara",
                 "time" => "$today",
-                "characterID" => "777"
+                "characterID" => $character->getLastCharacterIDByClient($client["clientID"])
             );
             var_dump($confirmation);
             return $confirmation;
