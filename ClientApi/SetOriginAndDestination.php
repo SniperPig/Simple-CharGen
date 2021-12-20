@@ -85,7 +85,7 @@
 
     <body class="text-center">
         <main class="form-signin">
-            <form action="/ClientApi/DisplayRoute.php" method="post">
+            <form action="DisplayRoute.php" method="post">
                 <img class="mb-4" src="arrows-alt-solid.svg" alt="" width="72" height="57">
                 <h1 class="h3 mb-3 fw-normal">Please enter Locations</h1>
 
