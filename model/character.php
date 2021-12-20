@@ -289,9 +289,9 @@ require_once('../database/ConnectionManager.php');
         /**
          * Delete one character created by a client in the  database
          */
-        function updateCharacterByID($characterID, $clientID){
-            $stmt = $this->dbConnection->prepare("UPDATE TABLE characters set characterJSON = :characterJSON WHERE clientID = :clientID AND characterID = :characterID");
-            $stmt->execute(["clientID"=>$clientID, "characterID"=>$characterID, "characterJSON"=>$this->characterJSON]);
+        function updateCharacterByID($characterID, $clientID, $characterJSON){
+            $stmt = $this->dbConnection->prepare("UPDATE characters set characterJSON = :characterJSON WHERE clientID = :clientID AND characterID = :characterID");
+            $stmt->execute(["clientID"=>$clientID, "characterID"=>$characterID, "characterJSON"=>$characterJSON]);
             
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)

@@ -17,7 +17,7 @@
                     "message" => "The license key is NOT SET",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
 
@@ -33,7 +33,7 @@
                     "message" => "The license key is NOT VALID",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }else{
                 // * echo"Valid ID ".$client["clientID"] ."\n";
@@ -51,7 +51,7 @@
                         "message" => "The key 'Character' is missing from the JSON",
                         "time" => "$today"
                     );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
 
@@ -72,7 +72,7 @@
                         "message" => "The key $key is missing in the character JSON",
                         "time" => "$today"
                     );
-                    var_dump($confirmation);
+                    //var_dump($confirmation);
                     return $confirmation;
                 }
             }
@@ -89,11 +89,11 @@
                 "time" => "$today",
                 "characterID" => $character->getLastCharacterIDByClient($client["clientID"])["characterID"]
             );
-            var_dump($confirmation);
+            //var_dump($confirmation);
             return $confirmation;
         }
 
-        function UpdateCharacter($id, $decoded){
+        function UpdateCharacter($decoded){
             //  Check if License Key is valid.
             if(array_key_exists("LicenseKey", $decoded)){
 
@@ -105,7 +105,7 @@
                     "message" => "The license key is NOT SET",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
             $client = new Client();
@@ -120,7 +120,7 @@
                     "message" => "The license key is NOT VALID",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }else{
                 // * echo"Valid ID ".$client["clientID"] ."\n";
@@ -140,7 +140,7 @@
                     "message" => "The Character does not match the User",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
                 }else{
                     //echo"Valid Character and ID $character_check \n";
@@ -154,7 +154,7 @@
                         "message" => "The key 'CharacterID' is missing from the JSON, do not know which character to UPDATE",
                         "time" => $today
                     );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
 
@@ -170,7 +170,7 @@
                         "message" => "The key 'Character' is missing from the JSON",
                         "time" => $today
                     );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
 
@@ -191,27 +191,26 @@
                         "message" => "The key $key is missing in the character JSON",
                         "time" => $today
                     );
-                    var_dump($confirmation);
+                    //var_dump($confirmation);
                     return $confirmation;
                 }
             }
             
 
             //  Update the JSON in the DB.
-            var_dump(json_encode($json_character));
-            $character->NewCharacter($client->clientID, json_encode($json_character));
-            $character->updateCharacterByID($decoded["CharacterID"], $client["clientID"]);
+            $character->NewCharacter($client["clientID"], json_encode($json_character));
+            $character->updateCharacterByID($decoded["CharacterID"], $client["clientID"], json_encode($json_character));
 
             //  Send back the confirmation of update with Character ID.
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
             $confirmation = array(
                 "code" => "201",
-                "message" => "Character successfully created",
+                "message" => "Character successfully UPDATED",
                 "time" =>$today,
                 "characterID" => $decoded["CharacterID"]
             );
-            var_dump($confirmation);
+            //var_dump($confirmation);
             return $confirmation;
         }
 

@@ -18,7 +18,7 @@
                     "message" => "The license key is NOT SET",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }
             $client = new Client();
@@ -34,7 +34,7 @@
                     "message" => "The license key is NOT VALID",
                     "time" => "$today"
                 );
-                var_dump($confirmation);
+                //var_dump($confirmation);
                 return $confirmation;
             }else{
                 // * echo"Valid ID ".$client["clientID"] ."\n";
@@ -74,8 +74,6 @@
 
                 "info" => $sentence
             );
-            var_dump($generated_character);
-            return $generated_character;
 
             $confirmation = array(
                 "code" => "201",
@@ -83,7 +81,7 @@
                 "time" => "TODO",
                 "character" => $generated_character
             );
-            var_dump($confirmation);
+            //var_dump($confirmation);
             return $confirmation;
         }
 
