@@ -44,7 +44,7 @@ require_once('../api/JWT.php');
                     "time" => "$today"
                 );
                 header('Content-Type: application/json; charset=utf-8');
-                var_dump($confirmation);
+                print_r(json_encode($confirmation));
                 return $confirmation;
         }
         //! TOKEN BASED AUTHENTICATION, KEEP COMMENTED FOR NOW
@@ -136,7 +136,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
             }
         if(array_key_exists("id", $_GET)){
@@ -150,7 +150,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
         }
 
@@ -190,7 +190,7 @@ require_once('../api/JWT.php');
                 $response->payload = json_encode($controller->GetCharacter($id, $licenseKey));
             }
             header('Content-Type: application/json; charset=utf-8');
-            echo $response->payload;
+            print_r($response->payload);
         }
     }
 
@@ -207,7 +207,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
             }
         if(array_key_exists("id", $_GET)){
@@ -221,7 +221,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
         }
         // Note-3
@@ -256,7 +256,7 @@ require_once('../api/JWT.php');
                 $response->payload = json_encode($controller->DeleteCharacter($id, $licenseKey));
             }
             header('Content-Type: application/json; charset=utf-8');
-            echo $response->payload;
+            print_r($response->payload);
         }
     }
         else if(strcasecmp($_SERVER['REQUEST_METHOD'], 'PUT') == 0){
@@ -283,7 +283,7 @@ require_once('../api/JWT.php');
                     "time" => "$today"
                 );
                 header('Content-Type: application/json; charset=utf-8');
-                var_dump($confirmation);
+                print_r(json_encode($confirmation));
                 return $confirmation;
         }
         //! TOKEN BASED AUTHENTICATION, KEEP COMMENTED FOR NOW
@@ -347,7 +347,7 @@ require_once('../api/JWT.php');
                     
                     $response->payload = json_encode($controller->UpdateCharacter($decoded));
                     header('Content-Type: application/json; charset=utf-8');
-                    echo $response->payload;
+                    print_r($response->payload);
                 }
                 
                 
