@@ -231,7 +231,7 @@ require_once('../database/ConnectionManager.php');
          * Get all the characters created by a client from the database
          */
         function getAllCharactersByClient($clientID){
-            $stmt = $this->dbConnection->prepare("SELECT * FROM characters WHERE clientID = :clientID");
+            $stmt = $this->dbConnection->prepare("SELECT characterJSON FROM characters WHERE clientID = :clientID");
             $stmt->execute(["clientID"=>$clientID]);
             
             // Get the day and time (in the MySQL DATETIME format)
