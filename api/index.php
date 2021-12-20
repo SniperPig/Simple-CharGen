@@ -173,6 +173,9 @@ require_once('../api/JWT.php');
             );
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($confirmation);
+<<<<<<< HEAD
+>>>>>>> parent of 8db0e11 (echo changed to print_r)
+=======
 >>>>>>> parent of 8db0e11 (echo changed to print_r)
             return;
 
