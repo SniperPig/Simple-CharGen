@@ -44,7 +44,7 @@ require_once('../api/JWT.php');
                     "time" => "$today"
                 );
                 header('Content-Type: application/json; charset=utf-8');
-                var_dump($confirmation);
+                print_r(json_encode($confirmation));
                 return $confirmation;
         }
         //! TOKEN BASED AUTHENTICATION, KEEP COMMENTED FOR NOW
@@ -136,34 +136,12 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
             }
         if(array_key_exists("id", $_GET)){
             $id = $_GET["id"];
         }else{
-<<<<<<< HEAD
-            // HERE
-            $keys = array();
-            $keys = array_keys($request->url_parameters);
-            // var_dump($keys);
-
-            // $keys[0] in this case is -> 'client'
-            // Capitalize the first letter.
-            if(empty($keys))
-                $controllerName = ucfirst('CharacterSaving').'Controller';
-            else
-            $controllerName = ucfirst($keys[0]).'Controller';
-
-            if(class_exists($controllerName)){
-                $controller = new $controllerName();
-                if($request->accept == "application/json"){
-                    $response->payload = json_encode($controller->GetAllCharacters($licenseKey));
-                }
-                header('Content-Type: application/json; charset=utf-8');
-                print_r($response->payload);
-            }
-=======
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
             $confirmation = array(
@@ -172,24 +150,8 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
-<<<<<<< HEAD
->>>>>>> parent of 8db0e11 (echo changed to print_r)
-=======
->>>>>>> parent of 8db0e11 (echo changed to print_r)
+            print_r(json_encode($confirmation));
             return;
-
-            // // Original
-            // $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
-            // $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
-            // $confirmation = array(
-            //     "code" => "400",
-            //     "message" => "Missing Character ID Key",
-            //     "time" => $today
-            // );
-            // header('Content-Type: application/json; charset=utf-8');
-            // print_r(json_encode($confirmation));
-            // return;
         }
 
         // var_dump($request->url_parameters);
@@ -228,7 +190,7 @@ require_once('../api/JWT.php');
                 $response->payload = json_encode($controller->GetCharacter($id, $licenseKey));
             }
             header('Content-Type: application/json; charset=utf-8');
-            echo $response->payload;
+            print_r($response->payload);
         }
     }
 
@@ -245,7 +207,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
             }
         if(array_key_exists("id", $_GET)){
@@ -259,7 +221,7 @@ require_once('../api/JWT.php');
                 "time" => $today
             );
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($confirmation);
+            print_r(json_encode($confirmation));
             return;
         }
         // Note-3
@@ -294,7 +256,7 @@ require_once('../api/JWT.php');
                 $response->payload = json_encode($controller->DeleteCharacter($id, $licenseKey));
             }
             header('Content-Type: application/json; charset=utf-8');
-            echo $response->payload;
+            print_r($response->payload);
         }
     }
         else if(strcasecmp($_SERVER['REQUEST_METHOD'], 'PUT') == 0){
@@ -321,7 +283,7 @@ require_once('../api/JWT.php');
                     "time" => "$today"
                 );
                 header('Content-Type: application/json; charset=utf-8');
-                var_dump($confirmation);
+                print_r(json_encode($confirmation));
                 return $confirmation;
         }
         //! TOKEN BASED AUTHENTICATION, KEEP COMMENTED FOR NOW
@@ -385,7 +347,7 @@ require_once('../api/JWT.php');
                     
                     $response->payload = json_encode($controller->UpdateCharacter($decoded));
                     header('Content-Type: application/json; charset=utf-8');
-                    echo $response->payload;
+                    print_r($response->payload);
                 }
                 
                 
