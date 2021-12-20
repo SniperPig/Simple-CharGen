@@ -45,7 +45,7 @@ require_once('../database/ConnectionManager.php');
         /**
          * get the word by form
          */
-        function getWordsByForm($tense){
+        function getWordsByForm($form){
             $stmt = $this->dbConnection->prepare("SELECT * FROM wordlist WHERE form = :form");
             $stmt->execute(["form"=>$form]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
