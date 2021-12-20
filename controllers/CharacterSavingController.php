@@ -257,6 +257,53 @@
             }
         }
 
+        function GetAllCharacters($licenseKey){
+            //  Check if License Key is valid.
+            $client = new Client();
+            $client = $client->getClientIDByLicenseKey($licenseKey);
+            //  Check if the client exists. (Send DENIED ACCESS if does not)
+            if(!$client){
+                $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                $confirmation = array(
+                    "code" => "400",
+                    "message" => "The license key is NOT VALID",
+                    "time" => "$today"
+                );
+                return $confirmation;
+            }else{
+                // * echo"Valid ID ".$client["clientID"] ."\n";
+            }
+            $character = new Character();
+            $characters = $character->getAllCharactersByClient($client["clientID"]);
+            foreach($characters as $character) {
+                if(!$character){
+                    $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                    $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                    $confirmation = array(
+                    "code" => "400",
+                    "message" => "No Characters for this Client.",
+                    "time" => $today
+                );
+                return $confirmation;
+                }
+                else{
+                    $character_JSON = $character["characterJSON"];
+                    var_dump($character_JSON);
+                    $character_JSON = json_decode($character_JSON);
+                    $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+                    $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
+                    $confirmation = array(
+                    "code" => "201",
+                    "message" => "Character successfully retrieved",
+                    "time" => $today,
+                    "character" => $character_JSON
+                );
+                return $confirmation;
+                } 
+            }
+        }
+
         function DeleteCharacter($id, $licenseKey){
             //  Check if License Key is valid.
             $client = new Client();

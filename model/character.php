@@ -237,14 +237,13 @@ require_once('../database/ConnectionManager.php');
             // Get the day and time (in the MySQL DATETIME format)
             $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
             $today = gmdate("Y-m-j H:i:s", time() + 3600*($timezone+date("I")));
-
-            $requestType = "GET";
+            $requestType = "GET ALL";
 
             $stmtElse = $this->dbConnection->prepare("INSERT INTO requests(clientID, requestTime, requestType)
             VALUES (:clientID, :requestTime, :requestType)");
-            $stmtElse->execute(["clientID"=>$this->clientID, "requestTime"=>$today, "requestType"=>$requestType]);
+            $stmtElse->execute(["clientID"=>$clientID, "requestTime"=>$today, "requestType"=>$requestType]);
 
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         /**
