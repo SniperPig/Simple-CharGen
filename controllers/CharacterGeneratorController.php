@@ -74,11 +74,12 @@
 
                 "info" => $sentence
             );
-
+            $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $today = gmdate("H:i:s", time() + 3600*($timezone+date("I")));
             $confirmation = array(
                 "code" => "201",
                 "message" => "Character successfully generated",
-                "time" => "TODO",
+                "time" => $today,
                 "character" => $generated_character
             );
             //var_dump($confirmation);
